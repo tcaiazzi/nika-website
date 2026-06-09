@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NIKA — Network Arena for AI Agent Benchmarking</title>
+  <meta name="description" content="NIKA is a unified platform for benchmarking AI agents on realistic network troubleshooting tasks, covering 640 distinct incidents across 5 network scenarios." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────────────────────── -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="logo-n">N</span><span class="logo-rest">IKA</span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#scenarios">Scenarios</a>
+        <a href="#issues">Issues</a>
+        <a href="#quickstart">Quick Start</a>
+        <a href="#cite">Cite</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="https://arxiv.org/abs/2512.16381" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Paper
+        </a>
+        <a class="btn btn-primary" href="https://github.com/sands-lab/nika" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.185 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.203 22 16.447 22 12.021 22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        New — 640 distinct troubleshooting incidents available
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-nika">NIKA</span>
+        <span class="hero-subtitle-line">Network Arena for</span>
+        <span class="hero-subtitle-line">Benchmarking <em>AI Agents</em></span>
+      </h1>
+      <p class="hero-desc">
+        A unified platform for evaluating AI agents on realistic network troubleshooting tasks —
+        spanning link failures, routing misconfigurations, attacks, and resource contention across
+        five real-world network topologies.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-lg" href="https://github.com/sands-lab/nika" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.185 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.203 22 16.447 22 12.021 22 6.484 17.522 2 12 2z"/></svg>
+          View on GitHub
+        </a>
+        <a class="btn btn-outline btn-lg" href="https://arxiv.org/abs/2512.16381" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Read the Paper
+        </a>
+        <a class="btn btn-outline btn-lg" href="https://zenodo.org/records/17971675" target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Dataset
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">54</span>
+          <span class="stat-label">Network Issues</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">640</span>
+          <span class="stat-label">Distinct Incidents</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Network Scenarios</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">900+</span>
+          <span class="stat-label">Reasoning Traces</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </section>
+
+  <!-- ── OVERVIEW ──────────────────────────────────────────────────────── -->
+  <section class="section" id="overview">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Overview</span>
+        <h2 class="section-title">What is NIKA?</h2>
+        <p class="section-desc">
+          NIKA is a unified platform that bridges AI agents with realistic network environments,
+          enabling reproducible evaluation and real-time troubleshooting.
+        </p>
+      </div>
+      <div class="overview-grid">
+        <div class="overview-cards">
+          <div class="overview-card card-accent-cyan">
+            <div class="ov-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3>Benchmark Suite</h3>
+            <p>
+              54 curated network incidents covering link failures, host failures, routing
+              misconfigurations, resource contention, and attacks. Combined with 5 scalable
+              topologies, NIKA yields <strong>640 distinct troubleshooting incidents</strong>.
+              Incidents can be further extended by randomising failure locations and composing
+              multiple issues.
+            </p>
+          </div>
+          <div class="overview-card card-accent-purple">
+            <div class="ov-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <h3>Orchestration Platform</h3>
+            <p>
+              A modular plug-and-play platform that connects AI agents with the network
+              environment via <strong>MCP servers</strong>, enabling real-time troubleshooting
+              in realistic conditions and providing a human-facing interface to monitor agent
+              performance.
+            </p>
+          </div>
+        </div>
+        <div class="overview-image-wrap">
+          <div class="overview-image-frame">
+            <img
+              src="https://raw.githubusercontent.com/sands-lab/nika/main/assets/images/nika_arch_gpt.png"
+              alt="NIKA Architecture Diagram"
+              class="overview-image"
+              loading="lazy"
+            />
+            <div class="overview-image-caption">NIKA system architecture</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ──────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Features</span>
+        <h2 class="section-title">Built for AI + Networking Research</h2>
+      </div>
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <h3>Kathará-based Environment</h3>
+          <p>Standardised network emulation built on Kathará, enabling reproducible and realistic network topologies with real routing daemons.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <h3>MCP Tool Integration</h3>
+          <p>Model Context Protocol servers expose network operations — ping, iperf, BGP/OSPF config, flow rules, telemetry — as callable tools for any MCP-compatible agent.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Pre-built Scenarios &amp; Faults</h3>
+          <p>54 realistic faults spanning 6 categories, ready to inject into any scenario at any topology scale with a single CLI command.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <h3>Reproducible Evaluation</h3>
+          <p>Automatic evaluation via numeric metrics, LLM-as-judge scoring, and CSV publishing, ensuring fair and consistent comparisons across agents and models.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Multiple Topology Sizes</h3>
+          <p>Scalable scenarios support small, medium, and large topology tiers — campus networks, data centres, ISP backbones, SDN fabrics, and P4 testbeds.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3>Extensible by Design</h3>
+          <p>Plug in custom MCP servers, define new scenarios via Kathará's Python API, add custom agents, or hook into LangSmith / Langfuse / Laminar for observability.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>NIKA CLI</h3>
+          <p>A unified command-line interface to manage environments, inject faults, run agents, evaluate results, and drive traffic — all from a single tool.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <h3>Public Dataset</h3>
+          <p>Over 900 reasoning traces from multiple AI agents across the full benchmark, publicly available on Zenodo for analysis and replication.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCENARIOS ─────────────────────────────────────────────────────── -->
+  <section class="section" id="scenarios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Network Scenarios</span>
+        <h2 class="section-title">Five Real-World Topologies</h2>
+        <p class="section-desc">
+          Each scenario is defined as a Kathará <code>lab.py</code> file and can be
+          instantiated at different topology sizes (S / M / L).
+        </p>
+      </div>
+      <div class="scenarios-grid">
+        <div class="scenario-card">
+          <div class="scenario-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="4" height="4" rx="1"/><rect x="10" y="3" width="4" height="4" rx="1"/><rect x="10" y="11" width="4" height="4" rx="1"/><rect x="18" y="7" width="4" height="4" rx="1"/><line x1="6" y1="9" x2="10" y2="5"/><line x1="6" y1="9" x2="10" y2="13"/><line x1="14" y1="5" x2="18" y2="9"/><line x1="14" y1="13" x2="18" y2="9"/></svg>
+          </div>
+          <div class="scenario-badge scalable">Scalable</div>
+          <h3>Data Center (CLOS)</h3>
+          <p>Multi-tier leaf–spine fabric with edge servers. Models modern hyper-scale data centre networking.</p>
+          <div class="scenario-tags"><span>BGP</span><span>ECMP</span><span>Leaf-Spine</span></div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="scenario-badge scalable">Scalable</div>
+          <h3>Campus Network (3-Tier)</h3>
+          <p>Enterprise core–distribution–access topology. Represents typical university or corporate networks.</p>
+          <div class="scenario-tags"><span>OSPF</span><span>VLANs</span><span>Access</span></div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="2"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><line x1="6" y1="6" x2="10" y2="10"/><line x1="18" y1="6" x2="14" y2="10"/><line x1="6" y1="18" x2="10" y2="14"/><line x1="18" y1="18" x2="14" y2="14"/></svg>
+          </div>
+          <div class="scenario-badge scalable">Scalable</div>
+          <h3>ISP Backbone (Meshed)</h3>
+          <p>Provider-style backbone with core and access nodes. Models Internet Service Provider infrastructure.</p>
+          <div class="scenario-tags"><span>BGP</span><span>MPLS</span><span>Mesh</span></div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="2" y="15" width="5" height="4" rx="1"/><rect x="17" y="15" width="5" height="4" rx="1"/><line x1="12" y1="7" x2="12" y2="11"/><line x1="4.5" y1="15" x2="10" y2="11"/><line x1="19.5" y1="15" x2="14" y2="11"/><circle cx="12" cy="11" r="1"/></svg>
+          </div>
+          <div class="scenario-badge scalable">Scalable</div>
+          <h3>SDN Cloud POP (CLOS/Star)</h3>
+          <p>SDN fabric with centralised controller and edge switches. Models software-defined cloud edge deployments.</p>
+          <div class="scenario-tags"><span>OpenFlow</span><span>SDN</span><span>Star</span></div>
+        </div>
+        <div class="scenario-card scenario-card-wip">
+          <div class="scenario-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div class="scenario-badge wip">In Progress</div>
+          <h3>P4 Programmable Testbed</h3>
+          <p>Compact testbed for data-plane algorithms and pipeline validation using P4 programmable switches.</p>
+          <div class="scenario-tags"><span>P4</span><span>BMv2</span><span>INT</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ISSUES ─────────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="issues">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Network Issues</span>
+        <h2 class="section-title">54 Issues, 640 Incidents</h2>
+        <p class="section-desc">
+          Faults span the full spectrum of real-world network problems — from misconfigured routing
+          tables to active network attacks.
+        </p>
+      </div>
+      <div class="issues-grid">
+
+        <div class="issue-category">
+          <div class="issue-cat-header">
+            <div class="issue-cat-icon red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <h3>Link Failures</h3>
+              <span class="issue-count">6 issues</span>
+            </div>
+          </div>
+          <ul class="issue-list">
+            <li>Link flap</li>
+            <li>Link detached</li>
+            <li>Link down</li>
+            <li>Faulty cable (CRC errors)</li>
+            <li>MAC address conflict</li>
+            <li>Link fragmentation disabled</li>
+          </ul>
+        </div>
+
+        <div class="issue-category">
+          <div class="issue-cat-header">
+            <div class="issue-cat-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div>
+              <h3>End-Host Failures</h3>
+              <span class="issue-count">7 issues</span>
+            </div>
+          </div>
+          <ul class="issue-list">
+            <li>Conflicting VPN memberships</li>
+            <li>Host crash</li>
+            <li>Host IP conflict</li>
+            <li>Host IP misconfiguration</li>
+            <li>Incorrect netmask</li>
+            <li>DNS empty answer</li>
+            <li>+ more</li>
+          </ul>
+        </div>
+
+        <div class="issue-category">
+          <div class="issue-cat-header">
+            <div class="issue-cat-icon yellow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
+            </div>
+            <div>
+              <h3>Network Node Errors</h3>
+              <span class="issue-count">7 issues</span>
+            </div>
+          </div>
+          <ul class="issue-list">
+            <li>MPLS label limit hit</li>
+            <li>Switch/router crash</li>
+            <li>P4 invalid header read</li>
+            <li>SDN controller crash</li>
+            <li>Southbound port unreachable</li>
+            <li>+ more</li>
+          </ul>
+        </div>
+
+        <div class="issue-category">
+          <div class="issue-cat-header">
+            <div class="issue-cat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <h3>Misconfigurations</h3>
+              <span class="issue-count">14 issues</span>
+            </div>
+          </div>
+          <ul class="issue-list">
+            <li>BGP ASN mismatch</li>
+            <li>BGP blackhole route leak</li>
+            <li>OSPF area / neighbour misconfiguration</li>
+            <li>ACL blocks (ARP, ICMP, HTTP, routing)</li>
+            <li>Flow rule loop / shadowing</li>
+            <li>+ more</li>
+          </ul>
+        </div>
+
+        <div class="issue-category">
+          <div class="issue-cat-header">
+            <div class="issue-cat-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <h3>Resource Contention</h3>
+              <span class="issue-count">5 issues</span>
+            </div>
+          </div>
+          <ul class="issue-list">
+            <li>Microbursts on interface</li>
+            <li>Receiver saturated &amp; slow</li>
+            <li>Incast traffic</li>
+            <li>Sender saturated &amp; slow</li>
+            <li>Software middlebox overload</li>
+          </ul>
+        </div>
+
+        <div class="issue-category">
+          <div class="issue-cat-header">
+            <div class="issue-cat-icon pink">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h3>Network Under Attack</h3>
+              <span class="issue-count">6 issues</span>
+            </div>
+          </div>
+          <ul class="issue-list">
+            <li>Service DoS</li>
+            <li>BGP hijacking</li>
+            <li>DHCP spoofing</li>
+            <li>DNS spoofing</li>
+            <li>ARP cache poisoning</li>
+            <li>Misaligned sketch thresholds</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="issues-total">
+        <div class="issues-total-inner">
+          <span class="issues-total-num">640</span>
+          <span class="issues-total-label">Total distinct incidents across all scenarios and topology tiers</span>
+          <a href="https://zenodo.org/records/17971675" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+            View Dataset on Zenodo →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUICK START ───────────────────────────────────────────────────── -->
+  <section class="section" id="quickstart">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Quick Start</span>
+        <h2 class="section-title">Up and Running in Minutes</h2>
+        <p class="section-desc">
+          Requires <a href="https://www.kathara.org/" target="_blank" rel="noopener">Kathará</a> and Python ≥ 3.12.
+          Uses <a href="https://docs.astral.sh/uv" target="_blank" rel="noopener">uv</a> for dependency management.
+        </p>
+      </div>
+
+      <div class="qs-steps">
+
+        <div class="qs-step">
+          <div class="qs-step-num">1</div>
+          <div class="qs-step-body">
+            <h3>Install</h3>
+            <p>Clone the repository and install dependencies.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>bash</span>
+                <button class="copy-btn" data-target="code-install">Copy</button>
+              </div>
+              <pre id="code-install"><code><span class="cm"># Clone the repository</span>
+git clone https://github.com/sands-lab/nika
+cd nika
+
+<span class="cm"># Install dependencies with uv (recommended)</span>
+uv sync
+
+<span class="cm"># Or with pip</span>
+pip install -e .</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="qs-step">
+          <div class="qs-step-num">2</div>
+          <div class="qs-step-body">
+            <h3>Configure</h3>
+            <p>Create a <code>.env</code> file with your API keys and observability settings.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>.env</span>
+                <button class="copy-btn" data-target="code-env">Copy</button>
+              </div>
+              <pre id="code-env"><code><span class="cm"># LLM API keys</span>
+OPENAI_API_KEY=&lt;your-key&gt;
+DEEPSEEK_API_KEY=&lt;your-key&gt;
+
+<span class="cm"># Optional: observability (LangSmith)</span>
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=&lt;your-key&gt;
+LANGSMITH_PROJECT=&lt;project-name&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="qs-step">
+          <div class="qs-step-num">3</div>
+          <div class="qs-step-body">
+            <h3>Run a Scenario</h3>
+            <p>List available scenarios and start the network environment.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>bash</span>
+                <button class="copy-btn" data-target="code-run">Copy</button>
+              </div>
+              <pre id="code-run"><code><span class="cm"># List available scenarios</span>
+nika env list
+
+<span class="cm"># Start a scalable scenario (s / m / l)</span>
+nika env run dc_clos_bgp -t s
+
+<span class="cm"># Inject a fault</span>
+nika failure inject bgp_asn_misconfig
+
+<span class="cm"># Run an AI agent</span>
+nika agent run -a react -b openai -m gpt-4o-mini -n 20</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="qs-step">
+          <div class="qs-step-num">4</div>
+          <div class="qs-step-body">
+            <h3>Evaluate</h3>
+            <p>Measure performance with numeric metrics and an LLM judge, then publish results.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span>bash</span>
+                <button class="copy-btn" data-target="code-eval">Copy</button>
+              </div>
+              <pre id="code-eval"><code><span class="cm"># Compute numeric metrics</span>
+nika eval metrics
+
+<span class="cm"># Score with an LLM judge</span>
+nika eval judge -b openai -m gpt-4o-mini
+
+<span class="cm"># Publish summary CSV and teardown</span>
+nika eval publish</code></pre>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MCP TOOLS ─────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="mcp">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">MCP Servers &amp; Tools</span>
+        <h2 class="section-title">Network Operations as Agent Tools</h2>
+        <p class="section-desc">
+          NIKA exposes network operations through MCP servers, letting any MCP-compatible agent
+          (Claude, GPT-4, Gemini, open-source LLMs…) directly interact with the network environment.
+        </p>
+      </div>
+      <div class="mcp-grid">
+
+        <div class="mcp-server">
+          <div class="mcp-server-header">
+            <div class="mcp-server-icon cyan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            </div>
+            <h3>Base Kathará Server</h3>
+          </div>
+          <ul class="mcp-tools">
+            <li><code>get_reachability</code> — Ping all host pairs</li>
+            <li><code>iperf_test</code> — Bandwidth test between two hosts</li>
+            <li><code>systemctl_ops</code> — Start / stop / restart services</li>
+            <li><code>get_host_net_config</code> — Retrieve host network config</li>
+            <li><code>nft_list_ruleset</code> — Dump nftables ruleset</li>
+          </ul>
+        </div>
+
+        <div class="mcp-server">
+          <div class="mcp-server-header">
+            <div class="mcp-server-icon purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <h3>BMv2 P4 Server</h3>
+          </div>
+          <ul class="mcp-tools">
+            <li><code>bmv2_get_log</code> — Retrieve BMv2 switch logs</li>
+            <li><code>bmv2_get_counter_arrays</code> — Read counter arrays</li>
+          </ul>
+        </div>
+
+        <div class="mcp-server">
+          <div class="mcp-server-header">
+            <div class="mcp-server-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>FRRouting Server</h3>
+          </div>
+          <ul class="mcp-tools">
+            <li><code>frr_get_bgp_conf</code> — Retrieve BGP configuration</li>
+            <li><code>frr_get_ospf_conf</code> — Retrieve OSPF configuration</li>
+          </ul>
+        </div>
+
+        <div class="mcp-server">
+          <div class="mcp-server-header">
+            <div class="mcp-server-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <h3>INT / InfluxDB Server</h3>
+          </div>
+          <ul class="mcp-tools">
+            <li><code>influx_list_buckets</code> — List InfluxDB buckets</li>
+            <li><code>influx_get_measurements</code> — Retrieve measurements</li>
+            <li><code>influx_query_measurement</code> — Query telemetry data</li>
+          </ul>
+        </div>
+
+        <div class="mcp-server">
+          <div class="mcp-server-header">
+            <div class="mcp-server-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <h3>Generic Server</h3>
+          </div>
+          <ul class="mcp-tools">
+            <li><code>google_search</code> — Web search for context</li>
+          </ul>
+        </div>
+
+        <div class="mcp-server">
+          <div class="mcp-server-header">
+            <div class="mcp-server-icon pink">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <h3>Task Management Server</h3>
+          </div>
+          <ul class="mcp-tools">
+            <li><code>list_avail_problems</code> — List available problems</li>
+            <li><code>get_submission_template</code> — Get submission template</li>
+            <li><code>submit</code> — Submit a solution</li>
+          </ul>
+        </div>
+
+      </div>
+      <p class="mcp-note">
+        More tools coming soon. You can also plug in any custom MCP server —
+        browse <a href="https://mcp.so/" target="_blank" rel="noopener">mcp.so</a> for the community catalogue.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── CITE ──────────────────────────────────────────────────────────── -->
+  <section class="section" id="cite">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Citation</span>
+        <h2 class="section-title">Cite NIKA</h2>
+        <p class="section-desc">If you use NIKA in your research, please cite the following papers.</p>
+      </div>
+      <div class="cite-grid">
+
+        <div class="cite-card">
+          <div class="cite-card-header">
+            <h3>NIKA — Main Paper</h3>
+            <a href="https://arxiv.org/abs/2512.16381" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">ArXiv →</a>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span>BibTeX</span>
+              <button class="copy-btn" data-target="cite-main">Copy</button>
+            </div>
+            <pre id="cite-main"><code>@misc{nika,
+  title   = {A Network Arena for Benchmarking AI Agents
+             on Network Troubleshooting},
+  author  = {Zhihao Wang and Alessandro Cornacchia and
+             Alessio Sacco and Franco Galante and
+             Marco Canini and Dingde Jiang},
+  year    = {2025},
+  eprint  = {2512.16381},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.NI},
+  url     = {https://arxiv.org/abs/2512.16381},
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="cite-card">
+          <div class="cite-card-header">
+            <h3>Workshop Paper (NGNO '25)</h3>
+            <a href="https://doi.org/10.1145/3748496.3748990" target="_blank" rel="noopener" class="btn btn-ghost btn-xs">DOI →</a>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span>BibTeX</span>
+              <button class="copy-btn" data-target="cite-workshop">Copy</button>
+            </div>
+            <pre id="cite-workshop"><code>@inproceedings{llm4netlab,
+  author    = {Wang, Zhihao and Cornacchia, Alessandro
+               and Galante, Franco and Centofanti, Carlo
+               and Sacco, Alessio and Jiang, Dingde},
+  title     = {Towards a Playground to Democratize
+               Experimentation and Benchmarking of AI
+               Agents for Network Troubleshooting},
+  year      = {2025},
+  doi       = {10.1145/3748496.3748990},
+  booktitle = {Proceedings of the 1st Workshop on
+               Next-Generation Network Observability},
+  series    = {NGNO '25},
+}</code></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="logo-n">N</span><span class="logo-rest">IKA</span>
+          <p>A Network Arena for Benchmarking<br />AI Agents on Network Troubleshooting</p>
+        </div>
+        <div class="footer-links-group">
+          <h4>Project</h4>
+          <a href="https://github.com/sands-lab/nika" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://arxiv.org/abs/2512.16381" target="_blank" rel="noopener">ArXiv Paper</a>
+          <a href="https://zenodo.org/records/17971675" target="_blank" rel="noopener">Dataset (Zenodo)</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Documentation</h4>
+          <a href="https://github.com/sands-lab/nika/blob/main/src/nika/cli/README.md" target="_blank" rel="noopener">CLI Reference</a>
+          <a href="https://github.com/KatharaFramework/Kathara/wiki/Kathara-API-Docs" target="_blank" rel="noopener">Kathará API Docs</a>
+          <a href="https://github.com/sands-lab/nika/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Acknowledgements</h4>
+          <a href="https://github.com/microsoft/AIOpsLab" target="_blank" rel="noopener">AIOpsLab (Microsoft)</a>
+          <a href="https://www.kathara.org/" target="_blank" rel="noopener">Kathará Framework</a>
+          <a href="https://sands-lab.github.io/" target="_blank" rel="noopener">SANDS Lab</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Licensed under the MIT License.</span>
+        <span>Built by <a href="https://github.com/zhihao1998" target="_blank" rel="noopener">Zhihao Wang</a> &amp; <a href="https://github.com/alessandrocornacchia" target="_blank" rel="noopener">Alessandro Cornacchia</a> · SANDS Lab</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
